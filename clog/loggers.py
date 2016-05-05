@@ -263,13 +263,14 @@ class FileLogger(object):
         if isinstance(line, six.text_type):
             line = line.encode('UTF-8')
         self.stream_files[stream].write(line + b'\n')
+        self.stream_files[stream].flush()
 
     def close(self):
         for name in self.stream_files:
             self.stream_files[name].close()
 
     def _create_file(self, stream):
-        return open(os.path.join(config.log_dir, stream + '.log'), 'ab', 0)
+        return open(os.path.join(config.log_dir, stream + '.log'), 'a', 0)
 
 
 class GZipFileLogger(FileLogger):
